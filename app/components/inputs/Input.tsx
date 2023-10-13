@@ -20,18 +20,18 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({
-    label,
-    id,
-    register,
-    required,
-    errors,
-    type = 'text',
-    disabled,
-  }) => {
-    return (
-      <div>
-      <label 
-        htmlFor={id} 
+  label,
+  id,
+  register,
+  required,
+  errors,
+  type = 'text',
+  disabled,
+}) => {
+  return (
+    <div>
+      <label
+        htmlFor={id}
         className="
           block 
           text-sm 
@@ -48,7 +48,14 @@ const Input: React.FC<InputProps> = ({
           type={type}
           autoComplete={id}
           disabled={disabled}
-          {...register(id, { required })}
+          {...register(id,
+            {
+              required: {
+                value: true,
+                message: `${id} is required`
+              },
+            }
+          )}
           // form-input from tailwindcss/forms
           className={clsx(`
             form-input
@@ -74,7 +81,7 @@ const Input: React.FC<InputProps> = ({
         />
       </div>
     </div>
-    )
+  )
 }
 
 export default Input;
