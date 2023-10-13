@@ -100,6 +100,17 @@ const AuthForm = () => {
         setIsloading(true);
 
         // Next Auth Sign In
+        signIn(action, { redirect : false })
+        .then((callback)=>{
+            if(callback?.error){
+                toast.error('Invalid Credentials');
+            }
+
+            if(callback?.ok && !callback?.error){
+                toast.success('Logged In');
+            }
+        })
+        .finally(() => setIsloading(false));
     }
     return (
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
