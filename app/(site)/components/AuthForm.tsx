@@ -49,6 +49,20 @@ const AuthForm = () => {
         
         if (variant === 'LOGIN') {
             // Next Auth sign in
+            signIn('credentials',{
+                ...data,
+                redirect: false
+            })
+            .then((callback) => {
+                if(callback?.error){
+                    toast.error('Invalid Credentials');
+                }
+
+                if(callback?.ok && !callback?.error){
+                    toast.success('Logged In');
+                }
+            })
+            .finally(() => setIsloading(false)); //Used to perform disabled functionality
         }
         
         if (variant === 'REGISTER') {
