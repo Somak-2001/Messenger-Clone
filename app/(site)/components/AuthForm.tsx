@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import Button from '@/app/components/Button';
 import Input from '@/app/components/inputs/Input';
@@ -20,6 +21,14 @@ const AuthForm = () => {
     const [isloading, setIsloading] = useState(false);
 
     const router = useRouter();
+    const session = useSession();
+
+    useEffect(()=>{
+       if(session?.status === 'authenticated'){
+        console.log('Authenticated');
+        router.push('/users');  //redirect user after login or register
+       }
+    },[session?.status, router])
 
     const {
         register,
@@ -72,7 +81,7 @@ const AuthForm = () => {
             //     return;
             // }
             axios.post('/api/register', data)
-            .then(() => signIn('credentials', {
+            .then(() => signIn('credentials', {  //Immediatetly Sign In
                 ...data,
                 redirect: false,
             }))
@@ -83,7 +92,7 @@ const AuthForm = () => {
                 
                 if (callback?.ok) {
                     toast.success('Registration Successfull');
-                    // router.push('/conversations')
+                    router.push('/conversations')
                 }
             })
             .catch(() => toast.error('Something went wrong!'))
