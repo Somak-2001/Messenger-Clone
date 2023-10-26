@@ -10,6 +10,7 @@ export default withAuth({
 // 
 export const config = {
     matcher : [
-        "/users/:path*"  // /users/:path* = dynamic routing in /users
+        "/users/:path*",  // /users/:path* = dynamic routing in /users
+        "/conversations/:path*"
     ]
 };
