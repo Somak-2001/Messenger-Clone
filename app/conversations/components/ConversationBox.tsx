@@ -1,5 +1,6 @@
 'use client';
 
+
 import Avatar from "@/app/components/Avatar";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import { FullConversationType } from "@/app/types";
@@ -7,7 +8,7 @@ import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { format } from "date-fns";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 interface ConversationBoxProps {
     data: FullConversationType,
@@ -18,9 +19,15 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
     data,
     selected
 }) => {
+    const [isMounted, setIsMounted] = useState(false);
     const otherUser = useOtherUser(data);
     const session = useSession();
     const router = useRouter();
+    
+    useEffect(()=>{
+        setIsMounted(true);
+    },[])
+
 
     const handleClick = useCallback(() => {
         router.push(`/conversations/${data.id}`)
@@ -66,6 +73,8 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
 
         return 'Start a new conversation';
     }, [lastMessage]);
+
+    if(!isMounted) return null;
 
     return (
         <div onClick={handleClick}
