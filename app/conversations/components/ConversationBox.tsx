@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { format } from "date-fns";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import AvatarGroup from "@/app/components/AvatarGroup";
 
 interface ConversationBoxProps {
     data: FullConversationType,
@@ -80,7 +81,13 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
         <div onClick={handleClick}
             className={clsx('w-full relative flex items-center space-x-3 p-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer',
                 selected ? 'bg-neutral-100' : 'bg-white')}>
-            <Avatar user={otherUser} />
+                    {
+                        data.isGroup? (
+                            <AvatarGroup users={data.users} />
+                        ) : (   
+                            <Avatar user={otherUser} />
+                        )
+                    }
 
             <div className="flex justify-between items-center mb-1">
                 <p className="text-md font-medium text-gray-900">
